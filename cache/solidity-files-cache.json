@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\BMSIT\\orchids-projects\\orchids-dresume-app\\contracts\\DResumeSBT.sol": {
+      "lastModificationDate": 1765547365659,
+      "contentHash": "b7b6fb513b9b608b9b347fda9d578140",
+      "sourceName": "contracts/DResumeSBT.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "DResumeSBT"
+      ]
+    }
+  }
+}
