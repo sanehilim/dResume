@@ -252,20 +252,7 @@ After deployment, test on-chain functionality:
 
 ---
 
-## 🌐 Deployment
-
-### Frontend Deployment (Vercel)
-
-1. Push code to GitHub
-2. Import project to [Vercel](https://vercel.com)
-3. Add environment variables in Vercel dashboard
-4. Deploy! 🚀
-
-### Smart Contract Deployment
-
-Follow our **[Remix Deployment Guide](./REMIX_DEPLOYMENT_GUIDE.md)** for step-by-step instructions.
-
----
+ 
 
 ## 📊 Project Structure
 
