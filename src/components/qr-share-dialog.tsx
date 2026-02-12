@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { generateQRCode, generateCredentialURL } from '@/lib/qr-code';
 import { Copy, Download, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
-import Image from 'next/image';
 
 interface QRShareDialogProps {
   open: boolean;
@@ -83,7 +82,7 @@ export function QRShareDialog({ open, onOpenChange, credentialId, credentialName
           ) : qrCode ? (
             <div className="flex flex-col items-center gap-4">
               <div className="p-4 bg-white rounded-lg border-2 border-sky-200">
-                <Image
+                <img
                   src={qrCode}
                   alt="QR Code"
                   width={256}

@@ -353,6 +353,48 @@ dresume-app/
 
 ---
 
+## 🚢 Deployment Checklist
+
+Before deploying to production, ensure:
+
+- [ ] All environment variables are set in your hosting platform
+- [ ] MongoDB Atlas database is configured and accessible
+- [ ] Pinata IPFS credentials are configured
+- [ ] Google Gemini API key is set
+- [ ] Smart contract is deployed and contract address is updated
+- [ ] Google Analytics ID is set (optional but recommended)
+- [ ] PWA icons are generated and placed in `/public` directory
+- [ ] Rate limiting is configured appropriately for your use case
+- [ ] Error monitoring is set up (e.g., Sentry, LogRocket)
+- [ ] SSL certificate is configured
+- [ ] Domain is configured and DNS is set up
+- [ ] CORS settings are configured if needed
+- [ ] Build passes without errors (`npm run build`)
+
+### Recommended Hosting Platforms
+
+- **Vercel** (Recommended for Next.js) - Automatic deployments, edge functions
+- **Netlify** - Great for static sites with serverless functions
+- **Railway** - Full-stack deployment with database support
+- **AWS Amplify** - Enterprise-grade hosting
+- **DigitalOcean App Platform** - Simple containerized deployments
+
+### Environment Variables for Production
+
+Make sure to set these in your hosting platform's environment variables:
+
+```env
+MONGODB_URI=your_production_mongodb_uri
+PINATA_API_KEY=your_pinata_api_key
+PINATA_SECRET_KEY=your_pinata_secret_key
+GEMINI_API_KEY=your_gemini_api_key
+NEXT_PUBLIC_CONTRACT_ADDRESS=your_deployed_contract_address
+NEXT_PUBLIC_APP_URL=https://your-domain.com
+NEXT_PUBLIC_GA_ID=your_google_analytics_id (optional)
+```
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions! Here's how:
