@@ -80,6 +80,35 @@
   --sidebar-ring: #38bdf8;
 }
 
+.dark {
+  --background: #0c1220;
+  --foreground: #e0f2fe;
+  --card: #1e293b;
+  --card-foreground: #e0f2fe;
+  --popover: #1e293b;
+  --popover-foreground: #e0f2fe;
+  --primary: #38bdf8;
+  --primary-foreground: #0c1220;
+  --secondary: #1e3a5f;
+  --secondary-foreground: #bae6fd;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e3a5f;
+  --accent-foreground: #bae6fd;
+  --destructive: #ef4444;
+  --border: #334155;
+  --input: #1e293b;
+  --ring: #38bdf8;
+  --sidebar: #0c1220;
+  --sidebar-foreground: #e0f2fe;
+  --sidebar-primary: #38bdf8;
+  --sidebar-primary-foreground: #0c1220;
+  --sidebar-accent: #1e3a5f;
+  --sidebar-accent-foreground: #bae6fd;
+  --sidebar-border: #334155;
+  --sidebar-ring: #38bdf8;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -100,12 +129,28 @@ nextjs-portal {
   border: 1px solid rgba(186, 230, 253, 0.5);
 }
 
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
 .gradient-bg {
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
 }
 
+.dark .gradient-bg {
+  background: linear-gradient(135deg, #0c1220 0%, #1e293b 50%, #334155 100%);
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

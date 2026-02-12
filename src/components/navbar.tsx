@@ -5,6 +5,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { FileText, Briefcase, Award, Home, Wallet, LogOut, Upload } from 'lucide-react';
 import { injected } from 'wagmi/connectors';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Navbar() {
   const { address, isConnected } = useAccount();
@@ -58,11 +59,12 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             {isConnected ? (
               <>
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-100 border border-sky-200">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-100 dark:bg-sky-900 border border-sky-200 dark:border-sky-800">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  <span className="text-sm font-medium text-sky-700">
+                  <span className="text-sm font-medium text-sky-700 dark:text-sky-300">
                     {truncateAddress(address!)}
                   </span>
                 </div>
@@ -70,7 +72,7 @@ export function Navbar() {
                   variant="outline" 
                   size="sm"
                   onClick={() => disconnect()}
-                  className="border-sky-300 text-sky-700 hover:bg-sky-100"
+                  className="border-sky-300 dark:border-sky-700 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   Disconnect

@@ -4,9 +4,29 @@ import { Resume } from '@/lib/models/Resume';
 import { Verification } from '@/lib/models/Verification';
 import { verifyResume } from '@/lib/gemini';
 import { uploadToIPFS } from '@/lib/pinata';
+import { verificationRateLimit } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting
+    const rateLimitResult = await verificationRateLimit(req);
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { 
+          error: 'Too many verification requests. Please try again later.',
+          retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
+        },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+          }
+        }
+      );
+    }
     await connectToDatabase();
     const body = await req.json();
     console.log('Received verification request:', { resumeId: body.resumeId, walletAddress: body.walletAddress });
