@@ -19,9 +19,12 @@ export async function generateQRCode(
   const { size = 256, margin = 2, color = { dark: '#000000', light: '#FFFFFF' } } = options;
 
   // Dynamic import to avoid SSR issues
-  const QRCode = (await import('qrcode')).default;
-  
+  if (typeof window === 'undefined') {
+    throw new Error('QR code generation is only available in the browser');
+  }
+
   try {
+    const QRCode = (await import('qrcode')).default;
     const dataUrl = await QRCode.toDataURL(text, {
       width: size,
       margin,

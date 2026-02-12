@@ -8,9 +8,11 @@ import { useAccount, useReadContract } from 'wagmi';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Award, ExternalLink, Copy, CheckCircle, Shield, Calendar } from 'lucide-react';
+import { Award, ExternalLink, Copy, CheckCircle, Shield, Calendar, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
 import { DRESUME_SBT_ABI } from '@/lib/contract-abi';
+import { QRShareDialog } from '@/components/qr-share-dialog';
+import { useState } from 'react';
 
 const CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -30,6 +32,8 @@ export default function CredentialsPage() {
   const router = useRouter();
   const [credentials, setCredentials] = useState<CredentialData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
+  const [selectedCredentialId, setSelectedCredentialId] = useState<number | null>(null);
 
   const { data: userCredentialIds } = useReadContract({
     address: CONTRACT_ADDRESS as `0x${string}`,
@@ -174,10 +178,21 @@ export default function CredentialsPage() {
                         variant="outline" 
                         size="sm"
                         className="flex-1 border-sky-300 text-sky-700 hover:bg-sky-100"
+                        onClick={() => {
+                          setSelectedCredentialId(cred.credentialId);
+                          setQrDialogOpen(true);
+                        }}
+                      >
+                        <QrCode className="w-4 h-4 mr-1" />
+                        Share
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="border-sky-300 text-sky-700 hover:bg-sky-100"
                         onClick={() => copyToClipboard(getShareableLink(cred.credentialId))}
                       >
-                        <Copy className="w-4 h-4 mr-1" />
-                        Share Link
+                        <Copy className="w-4 h-4" />
                       </Button>
                       {cred.ipfsHash && (
                         <Button 
@@ -215,6 +230,15 @@ export default function CredentialsPage() {
               </div>
             </CardContent>
           </Card>
+        )}
+
+        {selectedCredentialId !== null && (
+          <QRShareDialog
+            open={qrDialogOpen}
+            onOpenChange={setQrDialogOpen}
+            credentialId={selectedCredentialId}
+            credentialName={credentials.find(c => c.credentialId === selectedCredentialId)?.name}
+          />
         )}
       </main>
     </div>

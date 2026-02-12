@@ -57,6 +57,10 @@ dResume mints **Soulbound Tokens (SBTs)** - non-transferable blockchain credenti
 | **AI Career Assistant** | Get personalized career advice and skill gap analysis powered by Gemini AI |
 | **Job Matching** | AI-powered job recommendations based on your verified skills |
 | **Shareable Links** | Share your verifiable credential URL with employers and on social media |
+| **QR Code Sharing** | Generate QR codes for easy credential sharing at networking events and interviews |
+| **PDF Export** | Export your verified resume as a professional PDF document |
+| **Dark Mode** | Beautiful dark theme for comfortable viewing in any lighting condition |
+| **PWA Support** | Install dResume as a Progressive Web App on your mobile device |
 
 ### 💼 For Employers
 
@@ -67,6 +71,21 @@ dResume mints **Soulbound Tokens (SBTs)** - non-transferable blockchain credenti
 | **Skill Endorsements** | Issue endorsements to candidates you've worked with to build their reputation |
 | **Detailed Reports** | View AI verification scores, IPFS metadata, and credential history |
 | **Anti-Fraud Protection** | Blockchain immutability prevents credential tampering |
+| **QR Code Scanning** | Scan QR codes to instantly verify candidate credentials |
+
+### 🚀 Production-Ready Features
+
+| Feature | Description |
+|---------|-------------|
+| **Error Boundaries** | Comprehensive error handling with user-friendly error pages |
+| **Rate Limiting** | API rate limiting to prevent abuse (10 verifications/hour, 20 AI requests/hour) |
+| **SEO Optimization** | Full SEO support with Open Graph tags, structured data, and meta tags |
+| **Analytics Integration** | Google Analytics support for tracking user behavior and performance |
+| **Environment Validation** | Automatic validation of required environment variables on startup |
+| **Accessibility** | WCAG 2.1 AA compliant with proper ARIA labels and keyboard navigation |
+| **Loading States** | Beautiful loading skeletons and progress indicators throughout the app |
+| **Responsive Design** | Mobile-first design that works perfectly on all devices |
+| **Performance Optimized** | Optimized images, lazy loading, and efficient data fetching |
 
 ---
 
@@ -75,16 +94,21 @@ dResume mints **Soulbound Tokens (SBTs)** - non-transferable blockchain credenti
 ### Frontend
 - **Next.js 15** - React framework with App Router
 - **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling with custom light blue theme
+- **Tailwind CSS** - Utility-first styling with custom light blue theme and dark mode
 - **Framer Motion** - Smooth animations
 - **shadcn/ui** - Beautiful, accessible components
 - **Wagmi + Viem** - Ethereum wallet integration
+- **next-themes** - Dark mode support
+- **qrcode** - QR code generation for credential sharing
+- **React Query** - Efficient data fetching and caching
 
 ### Backend
 - **MongoDB Atlas** - User profiles, resumes, and analytics
 - **Pinata IPFS** - Decentralized credential storage
 - **Google Gemini AI** - Resume verification and career advice
 - **Next.js API Routes** - Serverless API endpoints
+- **Rate Limiting** - In-memory rate limiting for API protection
+- **Error Handling** - Comprehensive error boundaries and logging
 
 ### Blockchain
 - **Polygon Amoy Testnet** - Fast, low-cost transactions
@@ -103,6 +127,7 @@ dResume mints **Soulbound Tokens (SBTs)** - non-transferable blockchain credenti
 - MongoDB Atlas account (free tier works)
 - Pinata account for IPFS
 - Google Gemini API key
+- (Optional) Google Analytics account for production analytics
 
 ### Installation
 
@@ -115,7 +140,13 @@ cd dresume-app
 2. **Install dependencies**
 ```bash
 npm install
+# or
+yarn install
+# or
+bun install
 ```
+
+**Note**: The project includes `qrcode` package for QR code generation. Make sure all dependencies are installed correctly.
 
 3. **Configure environment variables**
 
@@ -132,7 +163,7 @@ PINATA_SECRET_KEY=your_pinata_secret_key
 # Gemini AI
 GEMINI_API_KEY=your_gemini_api_key
 
-# WalletConnect
+# WalletConnect (optional)
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
 
 # Smart Contract (update after deployment)
@@ -140,6 +171,15 @@ NEXT_PUBLIC_CONTRACT_ADDRESS=0x5b3E9d56633aa0c661655fC3b11975ca6166997D
 
 # Polygon RPC (optional - uses public RPC by default)
 POLYGON_AMOY_RPC=https://polygon-amoy.g.alchemy.com/v2/YOUR_KEY
+
+# Google Analytics (optional - for production analytics)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# App URL (for SEO and sharing)
+NEXT_PUBLIC_APP_URL=https://d-resume-ten.vercel.app
+
+# Google Search Console Verification (optional)
+NEXT_PUBLIC_GOOGLE_VERIFICATION=your_verification_code
 ```
 
 4. **Run the development server**
@@ -249,6 +289,17 @@ After deployment, test on-chain functionality:
 4. Mint credential (requires testnet MATIC)
 5. View credential on Credentials page
 6. Share credential link with employers
+7. Generate QR code for credential sharing
+8. Export resume as PDF
+
+### Test Production Features
+
+1. **Error Handling**: Trigger an error to see error boundary in action
+2. **Rate Limiting**: Make multiple rapid API requests to test rate limiting
+3. **Dark Mode**: Toggle dark mode using the theme button in navbar
+4. **PWA**: Install the app on mobile device and test offline functionality
+5. **QR Code**: Generate QR code for any credential and scan with phone
+6. **PDF Export**: Export any resume as PDF from the dashboard
 
 ---
 
@@ -275,15 +326,28 @@ dresume-app/
 │   ├── components/        # React components
 │   │   ├── ui/            # shadcn/ui components
 │   │   ├── navbar.tsx     # Navigation bar
-│   │   └── splash-screen.tsx  # Loading splash
+│   │   ├── splash-screen.tsx  # Loading splash
+│   │   ├── error-boundary.tsx # Error boundary component
+│   │   ├── theme-toggle.tsx   # Dark mode toggle
+│   │   ├── analytics.tsx      # Analytics component
+│   │   ├── qr-share-dialog.tsx # QR code sharing dialog
+│   │   └── pdf-export-button.tsx # PDF export button
 │   └── lib/               # Utilities
 │       ├── mongodb.ts     # MongoDB client
 │       ├── pinata.ts      # IPFS client
 │       ├── gemini.ts      # AI client
 │       ├── contract-abi.ts # Smart contract ABI
-│       └── wagmi-config.ts # Web3 config
+│       ├── wagmi-config.ts # Web3 config
+│       ├── env.ts         # Environment validation
+│       ├── rate-limit.ts  # Rate limiting utilities
+│       ├── pdf-export.ts  # PDF export functionality
+│       └── qr-code.ts     # QR code generation
 ├── .env                   # Environment variables
 ├── package.json           # Dependencies
+├── manifest.json          # PWA manifest
+├── public/                # Static assets
+│   ├── manifest.json      # PWA manifest
+│   └── icons/             # App icons for PWA
 └── README.md             # You are here!
 ```
 
